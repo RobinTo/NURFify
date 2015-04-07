@@ -8,6 +8,7 @@ var staticdatahandler = (function(){
         loadOrCache(config.baseurl + '/champions', function(data){
             loaded++;
             loadChampions(data);
+            app.init();
         });
         loadOrCache(config.baseurl + '/summonerspells', function(data){
             loaded++;
@@ -68,6 +69,12 @@ var staticdatahandler = (function(){
 
     return{
         init : init,
+        getAllChampions : function(){
+            return champions;
+        },
+        getAllSummonerSpells : function(){
+            return summonerSpells;
+        },
         getChampion : getChampion,
         getSummonerSpell : getSummonerSpell,
         isReady : function(){

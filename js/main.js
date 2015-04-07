@@ -22,8 +22,7 @@ function init(){
 
         console.log(config.getVersion());
         storage.init();
-        staticdatahandler.init();
-        app.init();
+        staticdatahandler.init(app.init);
     });
 }
 
