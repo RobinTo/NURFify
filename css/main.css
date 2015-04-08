@@ -170,4 +170,21 @@ body {
   border: 1px solid black;
   outline: none;
 }
+#content .championContent {
+  padding-top: 12px;
+}
+#content .championContent .frontpageTable {
+  width: 50%;
+}
+#content .championContent .frontpageTable tr {
+  width: 100%;
+}
+#content .championContent .frontpageTable tr td {
+  width: 25%;
+  text-align: center;
+}
+#content .championContent .frontpageTable tr td img {
+  width: 50px;
+  height: 50px;
+}
 
