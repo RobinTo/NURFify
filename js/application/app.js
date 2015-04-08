@@ -1,5 +1,6 @@
 var app = (function(){
-    var champions = {};
+    var champions = {},
+        championArray = []; // Storing as an array as well, to be able to use js default sort function.
     function init(){
         var allchampions = staticdatahandler.getAllChampions();
         for (var t in allchampions){
@@ -7,9 +8,9 @@ var app = (function(){
                 var c = allchampions[t];
                 console.log(c);
                 imagehandler.getImage(config.ddragonbase + config.getVersion() + '/img/champion/' + c.image.full, function(image){
-                    console.log(c.image.full);
                     image.addClass('icon');
                     image.attr('champion', c.name);
+                    image.attr('championId', c.id);
                     $('.searchBox').append(image);
                 });
             })();
@@ -36,6 +37,15 @@ var app = (function(){
                 cobject['deathsInLosses'] = champion.deathsInLosses;
                 cobject['minionsInLosses'] = champion.minionsInLosses;
                 champions[champion.championId] = cobject;
+                championArray.push(cobject);
+            }
+
+            var killers = championArray.sort(function(a,b){
+                return (b.killsInWins+ b.killsInLosses)/(b.wins+ b.losses) - (a.killsInWins+ a.killsInLosses)/(a.wins+ a.losses)
+            });
+            for (var k = 0; k < killers.length; k++){
+                console.log(staticdatahandler.getChampion(killers[k].championId).name);
+                console.log((killers[k].killsInWins+ killers[k].killsInLosses)/(killers[k].wins+killers[k].losses))
             }
         });
 
@@ -45,12 +55,26 @@ var app = (function(){
             for(var i = 0; i < icons.length; i++){
                 var currentIcon = icons[i];
                 if($(currentIcon).attr('champion').toLowerCase().indexOf(text) < 0){
-                    $(currentIcon).hide();
+                    $(currentIcon).addClass('hidden');
                 } else{
-                    $(currentIcon).show();
+                    $(currentIcon).removeClass('hidden');
                 }
             }
         });
+
+
+        $(document).on('click', '.icon', function(event){
+            var championId = parseInt($(event.target).attr('championId')),
+                championData = staticdatahandler.getChampion(championId),
+                championStats = champions[championId];
+
+            var $c = $('.championContent');
+            $c.empty();
+            $c.append(championData.name + '<br />');
+            $c.append(championStats.wins+'/'+championStats.losses + '('+championStats.winrate.toFixed(2)+'%)<br />');
+            $c.append('Wards in wins: ' + (championStats.wardsPlacedInWins/championStats.wins).toFixed(2) + '<br />');
+            $c.append('Wards in losses: ' + (championStats.wardsPlacedInLosses/championStats.losses).toFixed(2) + '<br />');
+        })
     }
 
     return{

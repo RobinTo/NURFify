@@ -10,7 +10,7 @@ var config = (function(){
     }
 
     return {
-        baseurl:'http://localhost:8000',
+        baseurl:'http://robint.pythonanywhere.com/',
         ddragonbase: 'http://ddragon.leagueoflegends.com/cdn/',
         getVersion : getVersion,
         setVersion : setVersion

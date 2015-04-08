@@ -140,9 +140,12 @@ body {
   width: 50px;
   height: 50px;
   display: inline-block;
+  transition: all 1s ease-out;
+  opacity: 1;
 }
 #content .searchBox .icon.hidden {
-  display: none;
+  width: 0;
+  opacity: 0;
 }
 #content .searchBox .championFilter {
   text-indent: 25px;
@@ -155,13 +158,16 @@ body {
   width: 25px;
   height: 25px;
   transition: all 500ms ease;
-  margin: 8px;
   opacity: 0.25;
+  border: 1px solid lightgray;
+  box-sizing: border-box;
 }
 #content .searchBox .championFilter:active,
 #content .searchBox .championFilter:focus,
 #content .searchBox .championFilter:hover {
   width: 150px;
   opacity: 0.95;
+  border: 1px solid black;
+  outline: none;
 }
 
