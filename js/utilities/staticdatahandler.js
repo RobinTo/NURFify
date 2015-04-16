@@ -1,8 +1,9 @@
 var staticdatahandler = (function(){
     var champions = {},
-        summonerSpells = {};
+        summonerSpells = {},
+        items = {};
     var loaded = 0,
-        toLoad = 2;
+        toLoad = 3;
 
     function init(){
         loadOrCache(config.baseurl + '/champions', function(data){
@@ -13,6 +14,10 @@ var staticdatahandler = (function(){
         loadOrCache(config.baseurl + '/summonerspells', function(data){
             loaded++;
             loadSummonerSpells(data);
+        })
+        loadOrCache(config.baseurl + '/items', function(data){
+            loaded++;
+            loadItems(data);
         });
     }
 
@@ -23,7 +28,6 @@ var staticdatahandler = (function(){
                     callback(blobData);
                 });
             } else{
-                console.log('Got ' + path + ' from db.');
                 callback(result.entry)
             }
         });
@@ -39,9 +43,22 @@ var staticdatahandler = (function(){
         })
     }
 
+    function loadItems(data){
+        for(var item in data.data){
+            items[data.data[item].id] = data.data[item];
+        }
+    }
+
     function loadChampions(data){
         for(var champ in data.data){
             champions[data.data[champ].id] = data.data[champ];
+        }
+    }
+    function getItem(itemId){
+        if(itemId in items){
+            return items[itemId];
+        } else{
+            return false;
         }
     }
 
@@ -79,6 +96,7 @@ var staticdatahandler = (function(){
         getSummonerSpell : getSummonerSpell,
         isReady : function(){
             return loaded >= toLoad;
-        }
+        },
+        getItem : getItem
     }
 })();

@@ -9,7 +9,6 @@ var imagehandler = (function(){
                     createImageElement(blobData, callback);
                 });
             } else{
-                console.log('Got ' + path + ' from db.');
                 createImageElement(result.entry, callback);
             }
         });
@@ -25,7 +24,6 @@ var imagehandler = (function(){
         xhr.responseType = "blob";
         xhr.addEventListener("load", function () {
             if (xhr.status === 200) {
-                console.log("Image retrieved");
 
                 // File as response
                 blob = xhr.response;

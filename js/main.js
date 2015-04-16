@@ -2,7 +2,6 @@
 function init(){
     var dev = false;
     // Compare our version data to the version in riots static version api call.
-    console.log(config.baseurl + '/version');
     $.ajax(config.baseurl + '/version').done(function(data){
         var version = data[0];
 
@@ -16,11 +15,9 @@ function init(){
             config.setVersion(localstorage.getItem('dbversion'));
         }
         if(version === 0){
-            console.log(0);
             config.setVersion(localstorage.getItem('dbversion'));
         }
 
-        console.log(config.getVersion());
         storage.init();
         staticdatahandler.init(app.init);
     });
